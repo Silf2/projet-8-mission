@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.firstname ~ " " ~ user.lastname }} - {{ parent() }}{% endblock %}
+{% block header %}<h1>{{ user.firstname ~ " " ~ user.lastname }}</h1>{% endblock %}
+
+{% block body %}
+    <div id="content">
+        {{ form_start(form) }}
+            <div>
+                {{ form_row(form.last_name) }}
+            </div>
+            <div>
+                {{ form_row(form.first_name) }}
+            </div>
+            <div>
+                {{ form_row(form.email) }}
+            </div>
+            <div class="form-flex">
+                <div>{{ form_row(form.join_on) }}</div>
+                <div>{{ form_row(form.status) }}</div>
+            </div>
+            <button class="button button-submit">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -30,10 +30,10 @@
                         </td>
                         <td>{{ user.status }}</td>
                         <td>
-                            <a class="button button-edit-team" href="#">
+                            <a class="button button-edit-team" href="{{ path('app_user_edit', {'id' : user.id}) }}">
                             Éditer
                             </a>
-                            <a class="delete-team" href="#">
+                            <a class="delete-team" href="{{ path('app_user_delete', {'id' : user.id}) }}">
                             Supprimer
                             </a>
                         </td>

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="fr">
    <head>
       <meta charset="UTF-8">
@@ -21,12 +20,12 @@
                 <img src="{{ asset('img/logo.png')}}" alt="Logo TaskLinker" />
                 </a>
                 <ul id="main-menu">
-                <li {% if '/users' not in app.request.uri%}class="active"{% endif %}>
+                <li {% if '/user' not in app.request.uri%}class="active"{% endif %}>
                     <a href="{{ path('app_home')}}">
                     <i class="fa-solid fa-list-check"></i> Projets
                     </a>
                 </li>
-                <li {% if '/users' in app.request.uri%}class="active"{% endif %}>
+                <li {% if '/user' in app.request.uri%}class="active"{% endif %}>
                     <a href="{{ path('app_users') }}">
                     <i class="fa-regular fa-user"></i> Équipe
                     </a>

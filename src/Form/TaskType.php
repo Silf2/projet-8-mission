@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Task;
-use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -24,7 +23,7 @@ class TaskType extends AbstractType
                 ])
             ->add('deadline', DateType::class, [
                 'label' => 'Date',
-                'widget' => 'single_text', // Utilisez un widget de texte unique pour l'affichage de la date
+                'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd', 
                 "required" => false
             ])
