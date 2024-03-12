@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Équipe - {{ parent() }}{% endblock %}
+{% block header %}<h1>Équipe</h1>{% endblock %}
+
+{% block body %}
+    <div id="content">
+        <table id="team-container">
+            <thead>
+                <tr>
+                <th>Prénom, Nom</th>
+                <th>Statut</th>
+                <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <div class="employee-infos">
+                                <div class="employee-avatar">
+                                    {% set initials = user.firstname|first ~ user.lastname|first %}
+                                    {{ initials }}
+                                </div>
+                                <div class="employee-coords">
+                                    <strong>{{ user.firstname ~ ' ' ~ user.lastname }}</strong>
+                                    <span>{{ user.email }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ user.status }}</td>
+                        <td>
+                            <a class="button button-edit-team" href="#">
+                            Éditer
+                            </a>
+                            <a class="delete-team" href="#">
+                            Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
