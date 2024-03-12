@@ -42,4 +42,41 @@ class TaskController extends AbstractController
         ]);
     }
 
+    #[Route('/project/{projectId}/task/{taskId}/edit', name: 'app_task_edit')]
+    public function editTask(Request $request, int $taskId): Response {
+        $task = $this->taskRepository->find($taskId);
+        $project = $task->getProject();
+        $users = $project->getUsers();
+
+        $form = $this->createForm(TaskType::class, $task, [
+            'users' => $users,
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_project', ['id' => $project->getId()]);
+        }
+
+        return $this->render('edit-task.html.twig', [
+            'task' => $task,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/project/{projectId}/task/{taskId}/delete', name: 'app_task_delete')]
+    public function deleteTask(int $taskId): Response{
+        $task = $this->taskRepository->find($taskId);
+        $project = $task->getProject();
+
+        if(!$task){
+            return $this->redirectToRoute('app_project', ['id' => $project->getId()]);
+        }
+
+        $this->entityManager->remove($task);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_project', ['id' => $project->getId()]);
+    }
 }

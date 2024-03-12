@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ task.name }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <header>
+        <div id="current-user"></div>
+        <div id="title-page">
+            <h1>{{ task.name }}</h1>
+        </div>
+    </header>
+    <div id="content">
+        {{ form_start(form) }}
+            <div>
+                {{ form_row(form.name) }}
+            </div>
+            <div>
+                {{ form_row(form.description) }}
+            </div>
+            <div class="flex-form">
+                <div>
+                    {{ form_row(form.deadline) }}
+                </div>
+                <div>
+                    {{ form_row(form.status) }}
+                </div>
+            </div>
+            <div>
+                {{ form_row(form.user) }}       
+            </div>
+            <br>
+            <button class="button button-submit">Ajouter</button>
+            <a href="{{ path('app_task_delete', {'projectId': task.project.id, 'taskId': task.id}) }}" class="delete-task">Supprimer la tâche</a>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

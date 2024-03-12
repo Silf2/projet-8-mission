@@ -4,7 +4,7 @@
         <div class="tasks-list">
             {% for task in tasks %}
                 {% if task.status == status %}
-                    <a class="task" href="#">
+                    <a class="task" href="{{ path('app_task_edit', {'projectId': task.project.id, 'taskId': task.id}) }}">
                         <h3>{{ task.name }}</h3>
                         <p>{{ task.description }}</p>
                         <div class="task-infos">
