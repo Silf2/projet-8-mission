@@ -1,14 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une tâche - {{ parent() }}{% endblock %}
+{% block title %}Créer une tâche - {{ parent() }}{% endblock %}
+{% block header %}<h1>Créer une tâche</h1>{% endblock %}
+
 
 {% block body %}
-    <header>
-        <div id="current-user"></div>
-        <div id="title-page">
-            <h1>Créer une tâche</h1>
-        </div>
-    </header>
     <div id="content">
         {{ form_start(form) }}
             <div>

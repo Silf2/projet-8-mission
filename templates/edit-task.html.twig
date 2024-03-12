@@ -1,14 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Modifier {{ task.name }} - {{ parent() }}{% endblock %}
+{% block header %}<h1>{{ task.name }}</h1>{% endblock %}
 
 {% block body %}
-    <header>
-        <div id="current-user"></div>
-        <div id="title-page">
-            <h1>{{ task.name }}</h1>
-        </div>
-    </header>
     <div id="content">
         {{ form_start(form) }}
             <div>

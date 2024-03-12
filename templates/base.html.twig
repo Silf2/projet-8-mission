@@ -34,8 +34,14 @@
                 </ul>
             </nav>
             <main>
+                <header>
+                    <div id="current-user"></div>
+                    <div id="title-page">
+                        {% block header %}{% endblock %}
+                    </div>
+                </header>
 
-            {% block body %}{% endblock %}
+                {% block body %}{% endblock %}
 
             </main>
         </div>

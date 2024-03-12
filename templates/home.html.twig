@@ -1,14 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Projets - {{ parent() }}{% endblock %}
+{% block header %}<h1>Projets</h1>{% endblock %}
 
 {% block body %}
-    <header>
-        <div id="current-user"></div>
-        <div id="title-page">
-            <h1>Projets</h1>
-        </div>
-    </header>
+
     <div id="content">
         <div id="projects-container">
             {% for project in projects %}
