@@ -52,25 +52,12 @@ class AppFixtures extends Fixture
             $projectsReferences[] = $project;
         }
 
-        // Ajout des statuts
-        $statuses = ['Ongoing', 'To Do', 'Done'];
-        $statusesReferences = [];
-
-        foreach ($statuses as $statusName) {
-            $status = new Status();
-            $status->setName($statusName);
-
-            $manager->persist($status);
-
-            $statusesReferences[] = $status;
-        }
-
         // Ajout des tâches
         $tasks = [
-            ['name' => 'Gestion des droits des accès', 'description' => 'Un employé ne peut accéder qu\'à ses projets', 'deadline' => new \DateTime('2023-09-22'), 'status' => $statusesReferences[0], 'user' => null, 'project' => $projectsReferences[0]],
-            ['name' => 'Developpement de la page employée', 'description' => 'Ouais', 'deadline' => new \DateTime('2001-01-01'), 'status' => $statusesReferences[1], 'user' => $usersReferences[1], 'project' => $projectsReferences[0]],
-            ['name' => 'Developpement de la structure globale', 'description' => 'Non', 'deadline' => new \DateTime('2002-02-02'), 'status' => $statusesReferences[2], 'user' => $usersReferences[1], 'project' => $projectsReferences[0]],
-            ['name' => 'Developpement de la page projet', 'description' => 'Oui', 'deadline' => new \DateTime('2003-03-03'), 'status' => $statusesReferences[2], 'user' => $usersReferences[0], 'project' => $projectsReferences[0]]
+            ['name' => 'Gestion des droits des accès', 'description' => 'Un employé ne peut accéder qu\'à ses projets', 'deadline' => new \DateTime('2023-09-22'), 'status' => 'To Do', 'user' => null, 'project' => $projectsReferences[0]],
+            ['name' => 'Developpement de la page employée', 'description' => 'Ouais', 'deadline' => new \DateTime('2001-01-01'), 'status' => 'Doing', 'user' => $usersReferences[1], 'project' => $projectsReferences[0]],
+            ['name' => 'Developpement de la structure globale', 'description' => 'Non', 'deadline' => new \DateTime('2002-02-02'), 'status' => 'Done', 'user' => $usersReferences[1], 'project' => $projectsReferences[0]],
+            ['name' => 'Developpement de la page projet', 'description' => 'Oui', 'deadline' => new \DateTime('2003-03-03'), 'status' => 'Done', 'user' => $usersReferences[0], 'project' => $projectsReferences[0]]
         ];
 
         foreach ($tasks as $taskData) {

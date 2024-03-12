@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'macro.html.twig' as macros %}
+
+{% block title %}{{ project.name }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <header>
+        <div id="current-user"></div>
+        <div id="title-page">
+            <div class="flex-header">
+                <h1>{{ project.name }}</h1>
+                <div class="user-list">
+                    {% for user in project.users %}
+                        {% set initials = user.firstname|first ~ user.lastname|first %}
+                        <div class="avatar">{{ initials }}</div>
+                    {% endfor %}
+                </div>
+                <a class="button" href="#">Modifier</a>
+            </div>
+        </div>
+    </header>
+    <div id="content">
+        <div id="tasks-container">
+            {{ macros.renderTasks(project.tasks, "To Do") }}
+            {{ macros.renderTasks(project.tasks, "Doing") }}
+            {{ macros.renderTasks(project.tasks, "Done") }}            
+        </div>
+    </div>
+{% endblock %}

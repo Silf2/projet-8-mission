@@ -1,0 +1,31 @@
+{% macro renderTasks(tasks, status) %}
+    <div class="task-column">
+        <h2>{{ status }}</h2>
+        <div class="tasks-list">
+            {% for task in tasks %}
+                {% if task.status == status %}
+                    <a class="task" href="#">
+                        <h3>{{ task.name }}</h3>
+                        <p>{{ task.description }}</p>
+                        <div class="task-infos">
+                            {% if task.deadline %}
+                                <div class="task-deadline">
+                                    <i class="fa-regular fa-calendar"></i> {{ task.deadline|date('d/m/Y') }}
+                                </div>
+                            {% endif %}
+                            {% if task.user %}
+                                <div class="mini-user">
+                                    {% set initials = task.user.firstname|first ~ task.user.lastname|first %}
+                                    {{ initials }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endif %}
+            {% endfor %}
+            <a href="{{ path('app_task_add', {'id' : app.request.attributes.get('id')}) }}" class="task-add">
+                + Ajouter une tâche
+            </a>
+        </div>
+    </div>
+{% endmacro %}

@@ -13,7 +13,7 @@
         <div id="projects-container">
             {% for project in projects %}
                 <article class="card-project">
-                    <a href="#">
+                    <a href="{{ path('app_project', {'id' : project.id}) }}">
                     <h2>{{ project.name }}</h2>
                     </a>
                     <div class="card-project-icons">

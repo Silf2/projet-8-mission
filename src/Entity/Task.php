@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -15,6 +16,7 @@ class Task
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -23,19 +25,19 @@ class Task
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deadline = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    private ?string $status = null;
+
     #[ORM\ManyToOne(targetEntity: "App\Entity\Project", inversedBy:"task")]
     #[ORM\JoinColumn(name:"project_id", referencedColumnName:"id")]
+    #[Assert\NotBlank]
     private $project;
 
     
     #[ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy:"task")]
     #[ORM\JoinColumn(name:"user_id", referencedColumnName:"id")]
     private $user;
-
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Status", inversedBy:"task")]
-    #[ORM\JoinColumn(name:"status_id", referencedColumnName:"id")]
-    private $status;
 
     public function getId(): ?int
     {
