@@ -36,7 +36,7 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('app_project', ['id' => $project->getId() ]);
         }
 
-        return $this->render('add-task.html.twig', [
+        return $this->render('task/add-task.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -58,7 +58,7 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('app_project', ['id' => $project->getId()]);
         }
 
-        return $this->render('edit-task.html.twig', [
+        return $this->render('task/edit-task.html.twig', [
             'task' => $task,
             'form' => $form->createView(),
         ]);

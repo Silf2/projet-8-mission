@@ -23,7 +23,7 @@ class ProjectController extends AbstractController
     {
         $projects = $this->projectRepository->findAll();
 
-        return $this->render('home.html.twig', [
+        return $this->render('project/home.html.twig', [
             'projects' => $projects,
         ]);
     }
@@ -36,7 +36,7 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('app_home');
         };
 
-        return $this->render('project.html.twig',[
+        return $this->render('project/project.html.twig',[
             'project' => $project,
         ]);
     }
@@ -66,7 +66,7 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('app_project', ['id' => $project->getId() ]);
         }
 
-        return $this->render('add-project.html.twig', [
+        return $this->render('project/add-project.html.twig', [
             'form' => $form->createView()
         ]);
     }

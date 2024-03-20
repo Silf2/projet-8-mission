@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ task.name }} - {{ parent() }}{% endblock %}
+{% block header %}<h1>{{ task.name }}</h1>{% endblock %}
+
+{% block body %}
+    {% include 'form-task.html.twig' %}
+    {% block delete_button %}<a href="{{ path('app_task_delete', {'projectId': task.project.id, 'taskId': task.id}) }}" class="delete-task">Supprimer la tâche</a>{% endblock %}
+{% endblock %}            

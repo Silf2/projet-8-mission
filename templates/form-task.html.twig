@@ -1,9 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Modifier {{ task.name }} - {{ parent() }}{% endblock %}
-{% block header %}<h1>{{ task.name }}</h1>{% endblock %}
-
-{% block body %}
+{% block form_task %}
     <div id="content">
         {{ form_start(form) }}
             <div>
@@ -25,7 +20,7 @@
             </div>
             <br>
             <button class="button button-submit">Ajouter</button>
-            <a href="{{ path('app_task_delete', {'projectId': task.project.id, 'taskId': task.id}) }}" class="delete-task">Supprimer la tâche</a>
+            {% block delete_button %}{% endblock %}
         {{ form_end(form) }}
     </div>
 {% endblock %}
