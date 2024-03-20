@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\ProjectRepository;
 use App\Entity\Task;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Project;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

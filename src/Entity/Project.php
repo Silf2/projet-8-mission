@@ -20,7 +20,6 @@ class Project
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank]
     private ?bool $archived = null;
     
     #[ORM\ManyToMany(targetEntity:"App\Entity\User", mappedBy:"projects")]
@@ -100,6 +99,15 @@ class Project
     public function setTasks($tasks)
     {
         $this->tasks = $tasks;
+
+        return $this;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
 
         return $this;
     }

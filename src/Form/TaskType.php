@@ -39,9 +39,6 @@ class TaskType extends AbstractType
                 'label' => "Membre",
                 'choices' => array_merge(['Sélectionnez un utilisateur' => null], $options['users']->toArray()),
                 'choice_label' => function($user) {
-                    if ($user === null) {
-                        return 'Aucun utilisateur sélectionné';
-                    }
                     return $user->getFirstName() . ' ' . $user->getLastName();
                 }
             ])
