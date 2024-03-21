@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,18 +36,17 @@ class User
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     private ?string $status = null;
-
-    #[ORM\ManyToMany(targetEntity:"App\Entity\Project", inversedBy:"users")]
-    #[ORM\JoinTable(name:"users_projects")]
-    private $projects;
-
     
     #[ORM\OneToMany(targetEntity:"App\Entity\Task", mappedBy:"user")]
     private $tasks;
 
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users')]
+    private Collection $projects;
+
+
     public function __construct(){
-        $this->projects = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,26 +115,6 @@ class User
     }
 
     /**
-     * Get the value of projects
-     */ 
-    public function getProjects()
-    {
-        return $this->projects;
-    }
-
-    /**
-     * Set the value of projects
-     *
-     * @return  self
-     */ 
-    public function setProjects($projects)
-    {
-        $this->projects = $projects;
-
-        return $this;
-    }
-
-    /**
      * Get the value of tasks
      */ 
     public function getTasks()
@@ -150,6 +130,33 @@ class User
     public function setTasks($tasks)
     {
         $this->tasks = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): static
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): static
+    {
+        if ($this->projects->removeElement($project)) {
+            $project->removeUser($this);
+        }
 
         return $this;
     }

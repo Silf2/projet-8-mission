@@ -11,7 +11,7 @@
                     <div class="avatar">{{ initials }}</div>
                 {% endfor %}
             </div>
-            <a class="button" href="#">Modifier</a>
+            <a class="button" href="{{ path('app_project_edit', {'id' : project.id}) }}">Modifier</a>
         </div>
 {% endblock %}
 
@@ -20,7 +20,7 @@
         <div id="tasks-container">
             {{ macros.renderTasks(project.tasks, "To Do") }}
             {{ macros.renderTasks(project.tasks, "Doing") }}
-            {{ macros.renderTasks(project.tasks, "Done") }}            
+            {{ macros.renderTasks(project.tasks, "Done") }}
         </div>
     </div>
 {% endblock %}

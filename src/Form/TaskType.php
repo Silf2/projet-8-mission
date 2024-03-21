@@ -37,7 +37,7 @@ class TaskType extends AbstractType
             ])
             ->add('user', ChoiceType::class, [
                 'label' => "Membre",
-                'choices' => array_merge(['Sélectionnez un utilisateur' => null], $options['users']->toArray()),
+                'choices' => array_merge($options['users']->toArray()),
                 'choice_label' => function($user) {
                     return $user->getFirstName() . ' ' . $user->getLastName();
                 }

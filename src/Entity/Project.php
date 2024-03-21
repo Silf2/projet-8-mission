@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,16 +22,16 @@ class Project
 
     #[ORM\Column]
     private ?bool $archived = null;
-    
-    #[ORM\ManyToMany(targetEntity:"App\Entity\User", mappedBy:"projects")]
-    private $users;
 
-    #[ORM\OneToMany(targetEntity:"App\Entity\Task", mappedBy:"project")]
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy:"project")]
     private $tasks;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects')]
+    private Collection $users;
+
     public function __construct(){
-        $this->users = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
 
@@ -64,26 +65,6 @@ class Project
     }
 
     /**
-     * Get the value of users
-     */ 
-    public function getUsers()
-    {
-        return $this->users;
-    }
-
-    /**
-     * Set the value of users
-     *
-     * @return  self
-     */ 
-    public function setUsers($users)
-    {
-        $this->users = $users;
-
-        return $this;
-    }
-
-    /**
      * Get the value of tasks
      */ 
     public function getTasks()
@@ -103,11 +84,26 @@ class Project
         return $this;
     }
 
-    public function addUser(User $user): self
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
     {
         if (!$this->users->contains($user)) {
-            $this->users[] = $user;
+            $this->users->add($user);
         }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }

@@ -46,6 +46,7 @@ class TaskController extends AbstractController
         $task = $this->taskRepository->find($taskId);
         $project = $task->getProject();
         $users = $project->getUsers();
+        dump($taskId, $users);
 
         $form = $this->createForm(TaskType::class, $task, [
             'users' => $users,

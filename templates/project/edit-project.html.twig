@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ project.name }} - {{ parent() }}{% endblock %}
+{% block header %}<h1>{{ project.name }}</h1>{% endblock %}
+
+{% block body %}
+    {% include 'form-project.html.twig' %}
+{% endblock %}

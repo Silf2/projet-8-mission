@@ -54,11 +54,6 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $selectedUsers = $form->get('users')->getData();
-
-            foreach ($selectedUsers as $user) {
-                $project->addUser($user);
-            }
         
             $this->entityManager->persist($project);
             $this->entityManager->flush();
@@ -68,6 +63,28 @@ class ProjectController extends AbstractController
 
         return $this->render('project/add-project.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/project/{id}/edit', name : 'app_project_edit')]
+    public function editProject(Request $request, int $id) : Response {
+        $project = $this->projectRepository->find($id);
+        $users = $this->userRepository->findAll();
+
+        $form = $this->createForm(ProjectType::class, $project, [
+            'users' => $users,
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_project', ['id' => $project->getId() ]);
+        }
+
+        return $this->render('project/edit-project.html.twig', [
+            'form' => $form->createView(),
+            'project' => $project,
         ]);
     }
 
