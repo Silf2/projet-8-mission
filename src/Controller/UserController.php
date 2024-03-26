@@ -52,7 +52,7 @@ class UserController extends AbstractController{
         }
 
         foreach ($user->getTasks() as $task) {
-            $this->entityManager->remove($task);
+            $user->removeTask($task);
         }
 
         $this->entityManager->remove($user);

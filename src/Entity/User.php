@@ -41,7 +41,7 @@ class User
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users')]
     private Collection $projects;
 
-    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'user', cascade:["remove"])]
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'user', cascade:["persist"])]
     private Collection $tasks;
 
     public function __construct(){
