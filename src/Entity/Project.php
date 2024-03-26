@@ -23,15 +23,15 @@ class Project
     #[ORM\Column]
     private ?bool $archived = null;
 
-    #[ORM\OneToMany(targetEntity: Task::class, mappedBy:"project")]
-    private $tasks;
-
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects')]
     private Collection $users;
 
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'project')]
+    private Collection $tasks;
+
     public function __construct(){
-        $this->tasks = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
 
@@ -65,26 +65,6 @@ class Project
     }
 
     /**
-     * Get the value of tasks
-     */ 
-    public function getTasks()
-    {
-        return $this->tasks;
-    }
-
-    /**
-     * Set the value of tasks
-     *
-     * @return  self
-     */ 
-    public function setTasks($tasks)
-    {
-        $this->tasks = $tasks;
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, User>
      */
     public function getUsers(): Collection
@@ -104,6 +84,36 @@ class Project
     public function removeUser(User $user): static
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): static
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): static
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getProject() === $this) {
+                $task->setProject(null);
+            }
+        }
 
         return $this;
     }

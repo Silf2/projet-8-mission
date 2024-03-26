@@ -36,17 +36,17 @@ class User
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     private ?string $status = null;
-    
-    #[ORM\OneToMany(targetEntity:"App\Entity\Task", mappedBy:"user", orphanRemoval:false)]
-    private $tasks;
 
-    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users', orphanRemoval:false)]
+
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users')]
     private Collection $projects;
 
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'user', cascade:["remove"])]
+    private Collection $tasks;
 
     public function __construct(){
-        $this->tasks = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,26 +115,6 @@ class User
     }
 
     /**
-     * Get the value of tasks
-     */ 
-    public function getTasks()
-    {
-        return $this->tasks;
-    }
-
-    /**
-     * Set the value of tasks
-     *
-     * @return  self
-     */ 
-    public function setTasks($tasks)
-    {
-        $this->tasks = $tasks;
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Project>
      */
     public function getProjects(): Collection
@@ -156,6 +136,36 @@ class User
     {
         if ($this->projects->removeElement($project)) {
             $project->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): static
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): static
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getUser() === $this) {
+                $task->setUser(null);
+            }
         }
 
         return $this;

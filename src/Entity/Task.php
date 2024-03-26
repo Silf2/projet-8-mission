@@ -25,21 +25,16 @@ class Task
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deadline = null;
 
-
-
-    #[ORM\ManyToOne(targetEntity: "App\Entity\Project", inversedBy:"task")]
-    #[ORM\JoinColumn(name:"project_id", referencedColumnName:"id")]
-    #[Assert\NotBlank]
-    private $project;
-
-    
-    #[ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy:"task")]
-    #[ORM\JoinColumn(name:"user_id", referencedColumnName:"id")]
-    private $user;
-
     #[ORM\ManyToOne(inversedBy: 'task')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Project $project = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -82,47 +77,6 @@ class Task
         return $this;
     }
 
-
-    /**
-     * Get the value of project
-     */ 
-    public function getProject()
-    {
-        return $this->project;
-    }
-
-    /**
-     * Set the value of project
-     *
-     * @return  self
-     */ 
-    public function setProject($project)
-    {
-        $this->project = $project;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of user
-     */ 
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set the value of user
-     *
-     * @return  self
-     */ 
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getStatus(): ?Status
     {
         return $this->status;
@@ -131,6 +85,30 @@ class Task
     public function setStatus(?Status $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): static
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

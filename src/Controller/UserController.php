@@ -51,6 +51,10 @@ class UserController extends AbstractController{
             return $this->redirectToRoute('app_users');
         }
 
+        foreach ($user->getTasks() as $task) {
+            $this->entityManager->remove($task);
+        }
+
         $this->entityManager->remove($user);
         $this->entityManager->flush();
 
