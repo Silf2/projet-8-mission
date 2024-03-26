@@ -37,10 +37,10 @@ class User
     #[Assert\NotBlank]
     private ?string $status = null;
     
-    #[ORM\OneToMany(targetEntity:"App\Entity\Task", mappedBy:"user")]
+    #[ORM\OneToMany(targetEntity:"App\Entity\Task", mappedBy:"user", orphanRemoval:true)]
     private $tasks;
 
-    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users', orphanRemoval:true)]
     private Collection $projects;
 
 

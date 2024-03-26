@@ -25,9 +25,7 @@ class Task
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deadline = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    private ?string $status = null;
+
 
     #[ORM\ManyToOne(targetEntity: "App\Entity\Project", inversedBy:"task")]
     #[ORM\JoinColumn(name:"project_id", referencedColumnName:"id")]
@@ -38,6 +36,10 @@ class Task
     #[ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy:"task")]
     #[ORM\JoinColumn(name:"user_id", referencedColumnName:"id")]
     private $user;
+
+    #[ORM\ManyToOne(inversedBy: 'task')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Status $status = null;
 
     public function getId(): ?int
     {
@@ -121,10 +123,27 @@ class Task
         return $this;
     }
 
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+}
+
+    /*#[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    private ?string $status = null;
+
     /**
      * Get the value of status
      */ 
-    public function getStatus()
+    /*public function getStatus()
     {
         return $this->status;
     }
@@ -134,10 +153,9 @@ class Task
      *
      * @return  self
      */ 
-    public function setStatus($status)
+    /*public function setStatus($status)
     {
         $this->status = $status;
 
         return $this;
-    }
-}
+    }*/

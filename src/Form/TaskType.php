@@ -40,7 +40,8 @@ class TaskType extends AbstractType
                 'choices' => array_merge($options['users']->toArray()),
                 'choice_label' => function($user) {
                     return $user->getFirstName() . ' ' . $user->getLastName();
-                }
+                },
+                'required' => false,
             ])
         ;
     }

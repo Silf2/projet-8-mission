@@ -25,6 +25,7 @@ class ProjectType extends AbstractType
                     return $user->getFirstName() . ' ' . $user->getLastName();
                 }, 
                 'multiple' => true,
+                'required' => false,
             ])
         ;
     }
