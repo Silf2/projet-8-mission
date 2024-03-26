@@ -135,27 +135,3 @@ class Task
         return $this;
     }
 }
-
-    /*#[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    private ?string $status = null;
-
-    /**
-     * Get the value of status
-     */ 
-    /*public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set the value of status
-     *
-     * @return  self
-     */ 
-    /*public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }*/

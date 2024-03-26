@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\ProjectRepository;
 use App\Entity\Project;
 use App\Form\ProjectType;
+use App\Repository\StatusRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProjectController extends AbstractController
 {
 
-    public function __construct(private ProjectRepository $projectRepository, private UserRepository $userRepository, private EntityManagerInterface $entityManager){
+    public function __construct(private ProjectRepository $projectRepository, private UserRepository $userRepository, private StatusRepository $statusRepository, private EntityManagerInterface $entityManager){
     }
 
     #[Route('/', name: 'app_home')]
@@ -31,6 +32,7 @@ class ProjectController extends AbstractController
     #[Route('/projet/{id}', name : 'app_project')]
     public function project(int $id): Response {
         $project = $this->projectRepository->find($id);
+        $statuses = $this->statusRepository->findAll();
 
         if(!$project){
             return $this->redirectToRoute('app_home');
@@ -38,6 +40,7 @@ class ProjectController extends AbstractController
 
         return $this->render('project/project.html.twig',[
             'project' => $project,
+            'statuses' => $statuses,
         ]);
     }
 

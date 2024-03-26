@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% import 'macro.html.twig' as macros %}
 
 {% block title %}{{ project.name }} - {{ parent() }}{% endblock %}
 {% block header%}
@@ -18,9 +17,35 @@
 {% block body %}
     <div id="content">
         <div id="tasks-container">
-            {{ macros.renderTasks(project.tasks, "To Do") }}
-            {{ macros.renderTasks(project.tasks, "Doing") }}
-            {{ macros.renderTasks(project.tasks, "Done") }}
+            {% for status in statuses %}
+                <div class="task-column">
+                    <h2>{{ status.name }}</h2>
+                    <div class="tasks-list">
+                        {% for task in project.tasks %}
+                            {% if task.status.name == status.name %}
+                                <a class="task" href="{{ path('app_task_edit', {'projectId': task.project.id, 'taskId': task.id}) }}">
+                                    <h3>{{ task.name }}</h3>
+                                    <p>{{ task.description }}</p>
+                                    <div class="task-infos">
+                                        {% if task.deadline %}
+                                            <div class="task-deadline">
+                                                <i class="fa-regular fa-calendar"></i> {{ task.deadline|date('d/m/Y') }}
+                                            </div>
+                                        {% endif %}
+                                        {% if task.user %}
+                                            <div class="mini-user">
+                                                {% set initials = task.user.firstname|first ~ task.user.lastname|first %}
+                                                {{ initials }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        <a href="{{ path('app_task_add', {'id' : app.request.attributes.get('id')}) }}" class="task-add">+ Ajouter une tâche</a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

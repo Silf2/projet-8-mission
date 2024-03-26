@@ -29,11 +29,10 @@ class TaskType extends AbstractType
             ])
             ->add('status', ChoiceType::class, [
                 'label' => "Status",
-                'choices' => [
-                    'To Do' => 'To Do',
-                    'Doing' => 'Doing',
-                    'Done' => 'Done',
-                ],
+                'choices' => array_merge($options['status']),
+                'choice_label' => function($status){
+                    return $status->getName();
+                },
             ])
             ->add('user', ChoiceType::class, [
                 'label' => "Membre",
@@ -51,6 +50,7 @@ class TaskType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Task::class,
             'users' => [],
+            'status' => [],
         ]);
     }
 }

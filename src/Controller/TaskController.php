@@ -6,6 +6,7 @@ use App\Repository\ProjectRepository;
 use App\Entity\Task;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\TaskType;
+use App\Repository\StatusRepository;
 use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
-    public function __construct(private TaskRepository $taskRepository, private ProjectRepository $projectRepository, private EntityManagerInterface $entityManager){
+    public function __construct(private TaskRepository $taskRepository, private ProjectRepository $projectRepository, private StatusRepository $statusRepository, private EntityManagerInterface $entityManager){
     }
 
     #[Route('/project/{id}/task/add', name: 'app_task_add')]
     public function addTask(Request $request, int $id): Response {
         $project = $this->projectRepository->find($id);
+        $status = $this->statusRepository->findAll();
         $users = $project->getUsers();
 
         $task = new Task();
@@ -27,6 +29,7 @@ class TaskController extends AbstractController
 
         $form = $this->createForm(TaskType::class, $task, [
             'users' => $users,
+            'status' => $status,
         ]);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -45,11 +48,13 @@ class TaskController extends AbstractController
     public function editTask(Request $request, int $taskId): Response {
         $task = $this->taskRepository->find($taskId);
         $project = $task->getProject();
+        $status = $this->statusRepository->findAll();
         $users = $project->getUsers();
         dump($taskId, $users);
 
         $form = $this->createForm(TaskType::class, $task, [
             'users' => $users,
+            'status' => $status,
         ]);
         $form->handleRequest($request);
 
