@@ -10,6 +10,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
+    public const STATUS_LABEL_TODO = 'To Do';
+    public const STATUS_LABEL_DOING = 'Doing';
+    public const STATUS_LABEL_DONE = 'Done';
+    
+    public const STATUS_LABEL = [
+        self::STATUS_LABEL_TODO,
+        self::STATUS_LABEL_DOING,
+        self::STATUS_LABEL_DONE,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

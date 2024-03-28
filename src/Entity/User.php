@@ -134,8 +134,14 @@ class User
 
     public function removeProject(Project $project): static
     {
+        dump('removeProject');
         if ($this->projects->removeElement($project)) {
             $project->removeUser($this);
+            dump($project->getId());
+            foreach($project->getTasks() as $task) {
+                $task->setUser(null);
+                dump($task->getId());
+            }
         }
 
         return $this;

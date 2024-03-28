@@ -1,0 +1,17 @@
+<a class="task" href="{{ path('app_task_edit', {'projectId': task.project.id, 'taskId': task.id}) }}">
+    <h3>{{ task.name }}</h3>
+    <p>{{ task.description }}</p>
+    <div class="task-infos">
+        {% if task.deadline %}
+            <div class="task-deadline">
+                <i class="fa-regular fa-calendar"></i> {{ task.deadline|date('d/m/Y') }}
+            </div>
+        {% endif %}
+        {% if task.user %}
+            <div class="mini-user">
+                {% set initials = task.user.firstname|first ~ task.user.lastname|first %}
+                {{ initials }}
+            </div>
+        {% endif %}
+    </div>
+</a>

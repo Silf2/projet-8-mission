@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ProjectRepository;
 use App\Entity\Project;
+use App\Entity\Task;
 use App\Form\ProjectType;
 use App\Repository\StatusRepository;
 use App\Repository\UserRepository;
@@ -16,7 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProjectController extends AbstractController
 {
 
-    public function __construct(private ProjectRepository $projectRepository, private UserRepository $userRepository, private StatusRepository $statusRepository, private EntityManagerInterface $entityManager){
+    public function __construct(
+        private ProjectRepository $projectRepository, 
+        private UserRepository $userRepository, 
+        private StatusRepository $statusRepository, 
+        private EntityManagerInterface $entityManager,
+    ) {
     }
 
     #[Route('/', name: 'app_home')]
@@ -33,6 +39,7 @@ class ProjectController extends AbstractController
     public function project(int $id): Response {
         $project = $this->projectRepository->find($id);
         $statuses = $this->statusRepository->findAll();
+        dump($project->getTasksByStatus(Task::STATUS_LABEL_TODO));
 
         if(!$project){
             return $this->redirectToRoute('app_home');
