@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PrePersist;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
@@ -25,7 +26,7 @@ class Project
     #[ORM\Column]
     private ?bool $archived = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects', cascade: ['persist'])]
     private Collection $users;
 
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'project')]
@@ -85,7 +86,8 @@ class Project
 
     public function removeUser(User $user): static
     {
-        $this->users->removeElement($user);
+        dd($user->getId());
+        $user->getProjects()->removeElement($this);
 
         return $this;
     }

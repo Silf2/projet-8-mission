@@ -84,9 +84,15 @@ class ProjectController extends AbstractController
         $form = $this->createForm(ProjectType::class, $project, [
             'users' => $users,
         ]);
-        $form->handleRequest($request);
+        //$form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            //dd($form->getData());
+            $uof = $this->entityManager->getUnitOfWork();
+            $data = $uof->getOriginalEntityData($project);
+            dd($data);
+            $changeSet = $uof->getEntityChangeSet($project);
+            
             $this->entityManager->flush();
 
             return $this->redirectToRoute('app_project', ['id' => $project->getId() ]);
