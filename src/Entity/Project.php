@@ -26,7 +26,7 @@ class Project
     #[ORM\Column]
     private ?bool $archived = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects', cascade: ['persist', 'remove'])]
     private Collection $users;
 
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'project')]

@@ -7,6 +7,7 @@ use App\Entity\Project;
 use App\Entity\Task;
 use App\Form\ProjectType;
 use App\Repository\StatusRepository;
+use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,7 @@ class ProjectController extends AbstractController
         private ProjectRepository $projectRepository, 
         private UserRepository $userRepository, 
         private StatusRepository $statusRepository, 
+        private TaskRepository $taskRepository,
         private EntityManagerInterface $entityManager,
     ) {
     }
@@ -80,20 +82,22 @@ class ProjectController extends AbstractController
     public function editProject(Request $request, int $id) : Response {
         $project = $this->projectRepository->find($id);
         $users = $this->userRepository->findAll();
+        $oldUsers = $project->getUsers()->map(fn($user) => $user->getId() )->toArray();
 
         $form = $this->createForm(ProjectType::class, $project, [
             'users' => $users,
         ]);
-        //$form->handleRequest($request);
+        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            //dd($form->getData());
-            $uof = $this->entityManager->getUnitOfWork();
-            $data = $uof->getOriginalEntityData($project);
-            dd($data);
-            $changeSet = $uof->getEntityChangeSet($project);
-            
+            $this->entityManager->persist($project);
             $this->entityManager->flush();
+            $newUsers = $project->getUsers()->map(fn($user) => $user->getId() )->toArray();
+            $userDeleted = array_values(array_diff($oldUsers, $newUsers));
+
+            if($userDeleted){
+                $this->taskRepository->deleteUser($project->getId(), $userDeleted);
+            }
 
             return $this->redirectToRoute('app_project', ['id' => $project->getId() ]);
         }

@@ -21,6 +21,23 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
+    public function deleteUser(int $projectId, array $usersId){
+        $qb = $this->createQueryBuilder('t');
+        $qb->update()
+            ->set('t.user', 'null')
+            ->where($qb->expr()->in('t.user', ':user_ids'))
+            ->andWhere('t.project = :project_id')
+            ->setParameter('user_ids', $usersId)
+            ->setParameter('project_id', $projectId);
+        
+        $query = $qb->getQuery();
+        $query->execute();
+        
+        // Libérer les ressources
+        $qb->resetDQLParts();
+        $query->free();
+    }
+
 //    /**
 //     * @return Task[] Returns an array of Task objects
 //     */
