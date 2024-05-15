@@ -35,7 +35,7 @@ class Task
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deadline = null;
 
-    #[ORM\ManyToOne(inversedBy: 'task')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
 

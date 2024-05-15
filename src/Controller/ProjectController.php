@@ -41,7 +41,6 @@ class ProjectController extends AbstractController
     public function project(int $id): Response {
         $project = $this->projectRepository->find($id);
         $statuses = $this->statusRepository->findAll();
-        dump($project->getTasksByStatus(Task::STATUS_LABEL_TODO));
 
         if(!$project){
             return $this->redirectToRoute('app_home');
@@ -58,7 +57,6 @@ class ProjectController extends AbstractController
         $project = new Project();
         $project->setArchived(false);
         $users = $this->userRepository->findAll();
-
 
         $form = $this->createForm(ProjectType::class, $project, [
             'users' => $users,
